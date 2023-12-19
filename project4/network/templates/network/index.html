@@ -1,5 +1,15 @@
 {% extends "network/layout.html" %}
-
+{% load static %}
 {% block body %}
-    TODO
+<!-- following form mostly acquired through cs50.ai prompting -->
+    <form id="UserPost">
+        <input type="text" name="title" placeholder="Title">
+        <textarea name="content" placeholder="Content"></textarea>
+        <input type="submit" value="Submit">
+    </form>
+    <div id = "container4posts">
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
 {% endblock %}
