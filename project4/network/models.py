@@ -10,4 +10,17 @@ class NewPost(models.Model):
     title = models.CharField(max_length=64)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default = 0)
+
+    def serialize(self):
+        return {
+            "user": self.user.username,
+            "title": self.title,
+            "content": self.content,
+            "timestamp": self.timestamp.strftime('%B %d, %Y, %I:%M %p'),
+            "likes": self.likes
+        }
+    # cs50 chatbot helped with making the different variables in the self serialize function
+
+
 

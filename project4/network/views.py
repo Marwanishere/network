@@ -78,3 +78,14 @@ def call_posts(request):
         posts = NewPost.objects.all()
         posts_list = [{'user': post.user.username, 'content': post.content, 'timestamp': post.timestamp, 'title': post.title} for post in posts]
         return JsonResponse(posts_list, safe=False)
+    
+# psuedocode for below function provided by cs50.ai chatbot
+def post(request):
+    if request.method == 'POST':
+        dataPool = JSON.loads(request.body)
+        new_post = NewPost.objects.create(
+            user=request.user,
+            content=dataPool['content'],
+            title=dataPool["title"]
+        )
+        return JsonResponse({'message': 'Post generated successfully.'}, status=201)
