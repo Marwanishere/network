@@ -1,17 +1,15 @@
 {% extends "network/layout.html" %}
-{% load static %}
-{% block head%}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- above line acquired from cs50 chatbot as is used to try to get rid of a techical issue in the browser that may be causing it not to work -->
-{% endblock %}
-{% block body %}
-<!-- following form mostly acquired through cs50.ai prompting -->
-    <form id="UserPost">
-        <input type="text" name="title" placeholder="Title">
-        <textarea name="content" placeholder="Content"></textarea>
-        <input type="submit" value="Submit">
-    </form>
-    <div id = "container4posts">
-    </div>
-{% endblock %}
 
+{% block body %}
+    <html lang="en">
+        <body>
+            <form id="post-form" method="POST">
+                {% csrf_token %}
+                <textarea id="title-content" name = "title" placeholder = "Title"></textarea>
+                <textarea id="post-content" name="content" placeholder="Write your post here..."></textarea>
+                <input type="submit" value="Post">
+            </form>
+            <div id="old_posts"></div>
+        </body>
+    </html>
+{% endblock %}

@@ -1,11 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
-from .models import NewPost
+
 
 def index(request):
     return render(request, "network/index.html")
@@ -61,31 +61,3 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
-    
-# def call_posts(request):
-#     if request.method != 'POST':
-#         posts = NewPost.objects.all()
-#         # above line acquired through cs50.ai chatbot
-#         posts_list = NewPost(user=posts.cleaned_data['user'],content=posts.cleaned_data['content'],
-#                              timestamp=posts.cleaned_data['timestamp'],title=posts.cleaned_data['title'],)
-#         posts_list.save()
-
-#         return JsonResponse(posts_list, safe = False)
-    # returns the posts as javascript object notation. line acquired through cs50.ai chatbot
-
-def call_posts(request):
-    if request.method != 'POST':
-        posts = NewPost.objects.all()
-        posts_list = [{'user': post.user.username, 'content': post.content, 'timestamp': post.timestamp, 'title': post.title} for post in posts]
-        return JsonResponse(posts_list, safe=False)
-    
-# psuedocode for below function provided by cs50.ai chatbot
-def post(request):
-    if request.method == 'POST':
-        dataPool = JSON.loads(request.body)
-        new_post = NewPost.objects.create(
-            user=request.user,
-            content=dataPool['content'],
-            title=dataPool["title"]
-        )
-        return JsonResponse({'message': 'Post generated successfully.'}, status=201)
