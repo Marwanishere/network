@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // fetch request below changed in line with cs50 chatbot hint
         fetch('/npost', {
             method: 'POST',
+            headers: {
+                // line below used in conjunction with getCookie function to solve techical issue, acquired 
+                // through cs50 chatbot prompting
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
             body: JSON.stringify({
                 title: title,
                 content: content
@@ -18,4 +23,19 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(` just to make sure the logging has been done correctly here is the title: ${title}`)
     }
 })
+// function below acquired from cs50 chatbot and is purely there to solve a techincal issue 403 error
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 

@@ -9,7 +9,12 @@
                 <textarea id="post-content" name="content" placeholder="Write your post here..."></textarea>
                 <input id = "submit-post" type="submit" value="Post">
             </form>
-            <div id="old_posts"></div>
+            {% for post in old_posts %}
+                <div>
+                    <h6>{{ post.title }}</h6>
+                    <p style="color:rgb(43, 42, 42);">{{ post.content }}</p>
+                </div>
+            {% endfor %}
         </body>
     </html>
 {% endblock %}

@@ -11,11 +11,9 @@ from .models import Tweet
 
 
 def index(request):
-    if request.method == 'POST':
-        posts = Tweet.objects.all()
-        posts_list = [{'user': post.user.username, 'content': post.content, 'timestamp': post.timestamp, 'title': post.title, 'likes': post.likes} for post in posts]
-        return JsonResponse(posts_list, safe=False)
-    return render(request, "network/index.html")
+    # edit to code made using the help of cs50 chatbot
+    old_posts = Tweet.objects.all()
+    return render(request, "network/index.html", {'old_posts': old_posts})
 
 
 def login_view(request):
