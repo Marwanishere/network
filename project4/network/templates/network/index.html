@@ -13,6 +13,7 @@
                 {% for post in old_posts %}
                     <h6>{{ post.title }}</h6>
                     <p style="color:rgb(43, 42, 42);">{{ post.content }}</p>
+                    <p style="color:rgb(43, 42, 42);">{{ post.timestamp }}  {{ post.user }}</p>
                 {% endfor %}
             </div>
         </body>
