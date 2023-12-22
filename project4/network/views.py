@@ -3,8 +3,11 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.http import JsonResponse
+import json
 
 from .models import User
+from .models import Tweet
 
 
 def index(request):
@@ -61,3 +64,15 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+def npost(request):
+    if request.method != "GET":
+        dataPool = json.loads(request.body)
+        new_post = Tweet.objects.create(
+            user=request.user,
+            content=dataPool['content'],
+            title=dataPool["title"]
+        )
+        return JsonResponse({'message': 'Post generated successfully.'}, status=201)
+    # above line acquired through cs50 chatbot prompting
+    return HttpResponseRedirect(reverse("index"))
