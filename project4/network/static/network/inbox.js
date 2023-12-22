@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         })
         console.log(` just to make sure the logging has been done correctly here is the title: ${title}`)
+        location.reload()
+        // reload function gets rid of all console.log in this coument.queryselector area, line above acquired through cs50 prompting
     }
 })
 // function below acquired from cs50 chatbot and is purely there to solve a techincal issue 403 error
