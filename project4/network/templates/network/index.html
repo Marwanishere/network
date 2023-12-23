@@ -13,7 +13,10 @@
                 <div id = "old_posts">
                     <h5>{{ post.title }}</h5>
                     <h6 style="color:rgb(43, 42, 42);">{{ post.content }}</h6>
-                    <p style="color:rgb(43, 42, 42);">{{ post.timestamp }}  {{ post.user }}</p>
+                    <p style=" color:rgb(43, 42, 42);"><span style = "font-size: x-small;">{{ post.timestamp }}</span> ❤️ <span>{{ post.likes }}</span></p>
+                    <!-- span can be used to style things out differently that are on the same line -->
+                    <a href="#" class="badge badge-primary">{{ post.user }}</a>
+                    <!-- i want the above line to take the user to a page that shows all of the posts made by that user -->
                 </div>
             {% endfor %}
         </body>

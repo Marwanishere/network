@@ -12,7 +12,7 @@ from .models import Tweet
 
 def index(request):
     # edit to code made using the help of cs50 chatbot
-    old_posts = Tweet.objects.all()
+    old_posts = Tweet.objects.all().order_by("-timestamp")
     return render(request, "network/index.html", {'old_posts': old_posts})
 
 
