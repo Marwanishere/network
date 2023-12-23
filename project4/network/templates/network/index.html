@@ -7,15 +7,15 @@
                 {% csrf_token %}
                 <textarea id="title-content" name = "title" placeholder = "Title"></textarea>
                 <textarea id="post-content" name="content" placeholder="Write your post here..."></textarea>
-                <input id = "submit-post" type="submit" value="Post">
+                <input style="margin-bottom: 5px; " id = "submit-post" type="submit" value="Post">
             </form>
-            <div id = "old_posts">
-                {% for post in old_posts %}
-                    <h6>{{ post.title }}</h6>
-                    <p style="color:rgb(43, 42, 42);">{{ post.content }}</p>
+            {% for post in old_posts %}
+                <div id = "old_posts">
+                    <h5>{{ post.title }}</h5>
+                    <h6 style="color:rgb(43, 42, 42);">{{ post.content }}</h6>
                     <p style="color:rgb(43, 42, 42);">{{ post.timestamp }}  {{ post.user }}</p>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </body>
     </html>
 {% endblock %}
