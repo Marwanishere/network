@@ -1,0 +1,9 @@
+#old_posts{
+    background-color: #157d9c;
+    padding: 20px;
+    margin-bottom: 10px;
+    animation-name: hide;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+}
