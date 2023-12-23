@@ -40,4 +40,18 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
+// below query selector acquired by cs50 chatbot
+document.querySelectorAll('#delete-button').forEach(button => {
+    button.addEventListener('click', delete_old_post);
+});
+// below function made using cs50 chatbot then adapted to fit use case
+function delete_old_post(e) {
+    let id = e.target.dataset.id;
+    console.log(`Deleted post with id ${id}`)
+    fetch('/', {
+        method: 'DELETE',
+        body: JSON.stringify({
+            id: id
+        })
+    })
+}

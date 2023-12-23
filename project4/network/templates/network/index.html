@@ -17,6 +17,7 @@
                     <!-- span can be used to style things out differently that are on the same line -->
                     <a href="#" class="badge badge-primary">{{ post.user }}</a>
                     <!-- i want the above line to take the user to a page that shows all of the posts made by that user -->
+                    <button class="btn btn-light" id="delete-button" data-id="{{ post.id }}">Delete</button>
                 </div>
             {% endfor %}
         </body>

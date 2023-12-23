@@ -78,3 +78,13 @@ def npost(request):
         return JsonResponse({'message': 'Post generated successfully.'}, status=201)
     # above line acquired through cs50 chatbot prompting
     return HttpResponseRedirect(reverse("index"))
+
+def delete_post(request):
+    post_id = json.loads(request.body)['id']
+    user = request.user
+    old_posts = Tweet.objects.get(id = post_id)
+    if user == old_posts.user or user.is_superuser:
+        old_posts.delete()
+    remaining_posts = Tweet.objects.all()
+    return render(request, "network/index.html", {'remaining_posts': remaining_posts})
+
