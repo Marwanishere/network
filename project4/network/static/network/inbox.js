@@ -48,8 +48,13 @@ document.querySelectorAll('#delete-button').forEach(button => {
 function delete_old_post(e) {
     let id = e.target.dataset.id;
     console.log(`Deleted post with id ${id}`)
-    fetch('/', {
+    fetch(`/delete_post/${id}/`, {
         method: 'DELETE',
+        headers: {
+            // line below used in conjunction with getCookie function to solve techical issue, acquired 
+            // through cs50 chatbot prompting
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
         body: JSON.stringify({
             id: id
         })
