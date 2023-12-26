@@ -79,7 +79,7 @@ def npost(request):
     # above line acquired through cs50 chatbot prompting
     return HttpResponseRedirect(reverse("index"))
 
-def delete_post(request):
+def delete_post(request, post_id):
     post_id = json.loads(request.body)['id']
     user = request.user
     old_posts = Tweet.objects.get(id = post_id)
