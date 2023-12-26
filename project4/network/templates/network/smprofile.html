@@ -1,0 +1,24 @@
+{% extends "network/layout.html" %}
+{% block body %}
+    <html>
+        <h1>{{ post.user }}</h1>
+        {% if post.user == user %}
+            {% for post in selected_users_old_posts %}
+                <div id = "old_posts">
+                    <h5>{{ post.title }}</h5>
+                    <h6 style="color:rgb(43, 42, 42);">{{ post.content }}</h6>
+                    <p style=" color:rgb(43, 42, 42);"><span style = "font-size: x-small;">{{ post.timestamp }}</span> ❤️ <span>{{ post.likes }}</span></p>
+                    <button class="btn btn-light" id="delete-button" data-id="{{ post.id }}">Delete</button>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% for post in selected_users_old_posts %}
+                <div id = "old_posts">
+                    <h5>{{ post.title }}</h5>
+                    <h6 style="color:rgb(43, 42, 42);">{{ post.content }}</h6>
+                    <p style=" color:rgb(43, 42, 42);"><span style = "font-size: x-small;">{{ post.timestamp }}</span> ❤️ <span>{{ post.likes }}</span></p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </html>
+{% endblock %}

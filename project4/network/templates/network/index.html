@@ -15,7 +15,7 @@
                     <h6 style="color:rgb(43, 42, 42);">{{ post.content }}</h6>
                     <p style=" color:rgb(43, 42, 42);"><span style = "font-size: x-small;">{{ post.timestamp }}</span> ❤️ <span>{{ post.likes }}</span></p>
                     <!-- span can be used to style things out differently that are on the same line -->
-                    <a href="#" class="badge badge-primary">{{ post.user }}</a>
+                    <a href="{% url 'smprofile' post.user.username %}" class="badge badge-primary">{{ post.user }}</a>
                     <!-- i want the above line to take the user to a page that shows all of the posts made by that user -->
                     <button class="btn btn-light" id="delete-button" data-id="{{ post.id }}">Delete</button>
                 </div>

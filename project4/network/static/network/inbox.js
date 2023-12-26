@@ -44,8 +44,9 @@ function getCookie(name) {
 document.querySelectorAll('#delete-button').forEach(button => {
     button.addEventListener('click', delete_old_post);
 });
-// below function made using cs50 chatbot then adapted to fit use case
+// below function skeleton/body made using cs50 chatbot then adapted to fit use case
 function delete_old_post(e) {
+    e.preventDefault()
     let id = e.target.dataset.id;
     console.log(`Deleted post with id ${id}`)
     fetch(`/delete_post/${id}/`, {
@@ -59,4 +60,5 @@ function delete_old_post(e) {
             id: id
         })
     })
+    .finally(()=> location.reload());
 }
