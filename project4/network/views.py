@@ -100,11 +100,11 @@ def followstatus(request, username):
         # above 2 lines acquired through cs50.ai prompting
 
         # to get the user i used the following technique i learned
-        u = User.objects.get(username=username)
+        userFollowed = User.objects.get(username=username)
+        if followstatus == 'Follow':
+            request.user.Following_M2M.add(userFollowed)
+        elif followstatus == 'Unfollow':
+            request.user.Following_M2M.remove(userFollowed)
 
-        # to update the followstatus
-        u.followstatus = followstatus
-        u.save()
-
-    return render(request, "network/smprofile.html", {'followstatus': followstatus})
+    return JsonResponse({'followstatus': followstatus})
     

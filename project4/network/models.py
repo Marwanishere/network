@@ -3,8 +3,9 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
-
+    # the below line was made with the help of cs50.ai
+    Following_M2M = models.ManyToManyField('self', symmetrical=False, blank=True)
+    
 class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "user1")
     title = models.CharField(max_length=64)
