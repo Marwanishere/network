@@ -21,3 +21,11 @@ class Tweet(models.Model):
             "likes": self.likes
         }
     # cs50 chatbot helped with making the different variables in the self serialize function
+
+class FS(models.Model):
+    followstatus = models.BooleanField(default = False)
+
+    def serialize(self):
+        return {
+            "followstatus":self.followstatus
+        }

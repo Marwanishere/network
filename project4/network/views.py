@@ -92,3 +92,19 @@ def smprofile(request, username):
     selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")
     # as 'user' is a foreign key to the User model, you should be able to access the username with user__username
     return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
+
+def followstatus(request, username):
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        followstatus = data['followstatus']
+        # above 2 lines acquired through cs50.ai prompting
+
+        # to get the user i used the following technique i learned
+        u = User.objects.get(username=username)
+
+        # to update the followstatus
+        u.followstatus = followstatus
+        u.save()
+
+    return render(request, "network/smprofile.html", {'followstatus': followstatus})
+    

@@ -35,35 +35,37 @@ function delete_old_post(e) {
     })
     .finally(()=> location.reload());
 }
-let followstatus = true;
+
 document.querySelectorAll('#follow_button').forEach(button => {
     button.addEventListener('click', toggle_follow_unfollow);
 });
 function toggle_follow_unfollow(e){
     e.preventDefault()
     let username = e.target.dataset.username;
+    let followstatus = e.target.dataset.followstatus;
     console.log(`following ${username}`) 
     let follow_buttonjs = document.getElementById("follow_button");
     let csrftoken = getCookie('csrftoken')
     fetch(`/smprofile/${username}/`, {
         method: 'PUT',
-        headers: {"X-CSRFToken": csrftoken}
+        headers: {"X-CSRFToken": csrftoken},
+        body: JSON.stringify({
+            followstatus: followstatus
         })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
+        })
     .then (data =>{
         if (data.followstatus == true) {
             followstatus = false
-            follow_buttonjs.innerText = "Unfollow"
+            follow_buttonjs.innerText = "Follow"
+            console.log(followstatus)
         }
         else {
             followstatus = true
-            follow_buttonjs.innerText = "Follow"
+            follow_buttonjs.innerText = "Unfollow"
+            console.log(followstatus)
         }
     })
-    // .finally(()=> location.reload());
+    console.log(follow_buttonjs)
+
+    .finally(()=> location.reload());
 }
