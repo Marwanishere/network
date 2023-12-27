@@ -35,6 +35,7 @@ function delete_old_post(e) {
     })
     .finally(()=> location.reload());
 }
+let followstatus = true;
 document.querySelectorAll('#follow_button').forEach(button => {
     button.addEventListener('click', toggle_follow_unfollow);
 });
@@ -42,12 +43,18 @@ function toggle_follow_unfollow(e){
     e.preventDefault()
     let username = e.target.dataset.username;
     console.log(`following ${username}`) 
-    // the above line is returning following undefined
     let follow_buttonjs = document.getElementById("follow_button");
+    let csrftoken = getCookie('csrftoken')
     fetch(`/smprofile/${username}/`, {
-        method: 'GET'
+        method: 'PUT',
+        headers: {"X-CSRFToken": csrftoken}
         })
-    .then (response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then (data =>{
         if (data.followstatus == true) {
             followstatus = false

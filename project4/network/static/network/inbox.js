@@ -62,3 +62,5 @@ function delete_old_post(e) {
     })
     .finally(()=> location.reload());
 }
+// when you are working on pagination please make the old posts come up in a blur to 
+// unblur stagnating fashion from the bottom upward on scroll i think that will be so cool
