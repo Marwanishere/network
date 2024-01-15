@@ -50,6 +50,7 @@ function toggle_follow_unfollow(e){
         method: 'PUT',
         headers: {"X-CSRFToken": csrftoken},
         body: JSON.stringify({
+            username: username,
             followstatus: followstatus
         })
         })
@@ -62,10 +63,11 @@ function toggle_follow_unfollow(e){
         else {
             followstatus = true
             follow_buttonjs.innerText = "Unfollow"
-            console.log(followstatus)
+            console.log(followstatus);
+            console.log(data.followstatus);
         }
     })
     console.log(follow_buttonjs)
-
-    .finally(()=> location.reload());
+    
+    // .finally(()=> location.reload());
 }
