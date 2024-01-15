@@ -111,22 +111,7 @@ def smprofile(request, username):
                 request.user.Following_M2M.remove(userFollowed)
         return JsonResponse({'followstatus': followstatus})
     # as 'user' is a foreign key to the User model, you should be able to access the username with user__username
-    print(followstatus)
+    print(followstatus.followstatus)
     return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username, 'followstatus': followstatus})
 
-def followstatus(request, username):
-    if request.method == "PUT":
-        followstatus = FS.objects.get(followstatus=followstatus)
-        data = json.loads(request.body)
-        followstatus = data['followstatus']
-        # above 2 lines acquired through cs50.ai prompting
-
-        # to get the user i used the following technique i learned
-        userFollowed = User.objects.get(username=username)
-        if followstatus == 'Follow':
-            request.user.Following_M2M.add(userFollowed)
-        elif followstatus == 'Unfollow':
-            request.user.Following_M2M.remove(userFollowed)
-
-    return JsonResponse({'followstatus': followstatus})
     

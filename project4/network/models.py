@@ -24,7 +24,7 @@ class Tweet(models.Model):
     # cs50 chatbot helped with making the different variables in the self serialize function
 
 class FS(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "user10")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "user2")
     followstatus = models.BooleanField(default = False)
     
     def serialize(self):
