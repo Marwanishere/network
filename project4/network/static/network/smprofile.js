@@ -54,7 +54,6 @@ function toggle_follow_unfollow(e){
             followstatus: followstatus
         })
         })
-    .then(r => r.json())
     .then (data =>{
         if (data.followstatus == true) {
             followstatus = false
@@ -68,7 +67,6 @@ function toggle_follow_unfollow(e){
             console.log(data.followstatus);
         }
     })
-    .then(r => r.json())
     console.log(follow_buttonjs)
     
     // .finally(()=> location.reload());
