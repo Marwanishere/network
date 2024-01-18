@@ -11,6 +11,7 @@ urlpatterns = [
     path("npost", views.npost , name = "npost"),
     path("delete_post/<int:post_id>/", views.delete_post , name = "delete_post"),
     path("smprofile/<str:username>/", views.smprofile , name = "smprofile"),
+    path("followingpage/", views.followingpage , name = "followingpage"),
     path("smprofilefollowing/<str:username>/", views.smprofilefollowing, name = "smprofilefollowing")
     # smprofile stands for social media profile
 

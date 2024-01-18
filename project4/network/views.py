@@ -109,4 +109,6 @@ def smprofilefollowing(request, username):
     return render(request, "network/smprofilefollowing.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
     
 def followingpage(request):
-    pass
+    users_followed = FS.objects.filter(follower = request.user).values_list('following', flat = True)
+    old_posts = Tweet.objects.filter(user__in=users_followed).order_by("-likes" , "-timestamp")
+    return render(request, "network/followingpage.html", {'old_posts': old_posts})
