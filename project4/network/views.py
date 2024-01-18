@@ -10,6 +10,7 @@ from .models import User
 from .models import Tweet
 from .models import FS
 
+
 def index(request):
     # edit to code made using the help of cs50 chatbot
     old_posts = Tweet.objects.all().order_by("-timestamp")
@@ -89,30 +90,10 @@ def delete_post(request, post_id):
     return render(request, "network/index.html", {'remaining_posts': remaining_posts})
 
 def smprofile(request, username):
-    selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp") 
-    # the following 3 lines acquired through cs50.ai prompting 
-    try:
-        followstatus = FS.objects.get(user=request.user)
-    except FS.DoesNotExist:
-        # the following two lines used cs50.ai prompting and were then changed accordingly
-        followstatusmodelassosiatedwithuser = FS.objects.create(user=request.user)
-        followstatus = followstatusmodelassosiatedwithuser.followstatus
-    if request.method == "PUT":
-        data = json.loads(request.body)
-        followstatus = data.get('followstatus')
-        # above 2 lines acquired through cs50.ai prompting
-        if followstatus != None:    
+    selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")
+    return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
 
-        # to get the user i used the following technique i learned
-            userFollowed = User.objects.get(username=username)
-            if followstatus == 'Follow':
-                request.user.Following_M2M.add(userFollowed)
-            elif followstatus == 'Unfollow':
-                request.user.Following_M2M.remove(userFollowed)
-        return JsonResponse({'followstatus': followstatus})
-    # as 'user' is a foreign key to the User model, you should be able to access the username with user__username
-    print(followstatus.followstatus)
-    print("hello")
-    return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username, 'followstatus': followstatus})
-
+def smprofilefollowing(request, username): 
+    selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")
+    return render(request, "network/smprofilefollowing.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
     

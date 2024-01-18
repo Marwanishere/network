@@ -3,8 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    # the below line was made with the help of cs50.ai
-    Following_M2M = models.ManyToManyField('self', symmetrical=False, blank=True)
+    pass
     
 class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "user1")
@@ -24,10 +23,5 @@ class Tweet(models.Model):
     # cs50 chatbot helped with making the different variables in the self serialize function
 
 class FS(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "user2")
-    followstatus = models.BooleanField(default = False)
-    
-    def serialize(self):
-        return {
-            "followstatus":self.followstatus
-        }
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "follower", default = False)
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "following", default = False)

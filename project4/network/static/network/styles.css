@@ -25,3 +25,7 @@
 #delete-button:active{
     background-color: #b6160a;
 }
+
+#follow_button:hover{
+    background-color: #1d07ca;
+}
