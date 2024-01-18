@@ -112,6 +112,7 @@ def smprofile(request, username):
         return JsonResponse({'followstatus': followstatus})
     # as 'user' is a foreign key to the User model, you should be able to access the username with user__username
     print(followstatus.followstatus)
+    print("hello")
     return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username, 'followstatus': followstatus})
 
     
