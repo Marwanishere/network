@@ -90,10 +90,23 @@ def delete_post(request, post_id):
     return render(request, "network/index.html", {'remaining_posts': remaining_posts})
 
 def smprofile(request, username):
+    # request.user gives you the user who made the request, please memorise this.
+    user_logged_in = request.user
+    user2unfollow = User.objects.get(username=username)
+    # the get_or_create will return a tuple which will contain the object and a boolean indicating whether the thing was created 
+    followstatus, created = FS.objects.get_or_create(follower=user_logged_in, following=user2unfollow)
+    followstatus.delete()
+    print("not following")
     selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")
     return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
 
 def smprofilefollowing(request, username): 
+    user_logged_in = request.user
+    user2unfollow = User.objects.get(username=username)
+    print("following")
+    followstatus, created = FS.objects.get_or_create(follower=user_logged_in, following=user2unfollow)
     selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")
     return render(request, "network/smprofilefollowing.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
     
+def followingpage(request):
+    pass
