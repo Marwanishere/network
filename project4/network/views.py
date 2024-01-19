@@ -12,9 +12,13 @@ from .models import FS
 
 
 def index(request):
-    # edit to code made using the help of cs50 chatbot
-    old_posts = Tweet.objects.all().order_by("-timestamp")
-    return render(request, "network/index.html", {'old_posts': old_posts})
+    pageNumber = int(request.GET.get('page', 1))
+    nextPageUrl = '?page=' + str(pageNumber + 1)
+    lastPageUrl = '?page=' + str(pageNumber - 1) if pageNumber > 1 else ""
+    displacementAmount = (pageNumber - 1) * 10
+    old_posts = Tweet.objects.all().order_by("-timestamp")[displacementAmount:displacementAmount+10]
+    morePosts = Tweet.objects.all().order_by("-timestamp")[displacementAmount+10:displacementAmount+20].exists()
+    return render(request, "network/index.html", {'old_posts': old_posts, 'nextPageUrl': nextPageUrl , 'lastPageUrl': lastPageUrl, "more_posts":morePosts})
 
 
 def login_view(request):
@@ -90,25 +94,38 @@ def delete_post(request, post_id):
     return render(request, "network/index.html", {'remaining_posts': remaining_posts})
 
 def smprofile(request, username):
+    pageNumber = int(request.GET.get('page', 1))
+    nextPageUrl = '?page=' + str(pageNumber + 1)
+    lastPageUrl = '?page=' + str(pageNumber - 1) if pageNumber > 1 else ""
+    displacementAmount = (pageNumber - 1) * 10
     # request.user gives you the user who made the request, please memorise this.
     user_logged_in = request.user
     user2unfollow = User.objects.get(username=username)
     # the get_or_create will return a tuple which will contain the object and a boolean indicating whether the thing was created 
     followstatus, created = FS.objects.get_or_create(follower=user_logged_in, following=user2unfollow)
     followstatus.delete()
-    print("not following")
-    selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")
-    return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
+    selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")[displacementAmount:displacementAmount+10]
+    morePosts = Tweet.objects.filter(user__username=username).order_by("-timestamp")[displacementAmount+10:displacementAmount+20].exists()
+    return render(request, "network/smprofile.html", {"selected_users_old_posts": selected_users_old_posts, "username": username, 'nextPageUrl': nextPageUrl , 'lastPageUrl': lastPageUrl, "more_posts":morePosts})
 
 def smprofilefollowing(request, username): 
+    pageNumber = int(request.GET.get('page', 1))
+    nextPageUrl = '?page=' + str(pageNumber + 1)
+    lastPageUrl = '?page=' + str(pageNumber - 1) if pageNumber > 1 else ""
+    displacementAmount = (pageNumber - 1) * 10
     user_logged_in = request.user
     user2unfollow = User.objects.get(username=username)
-    print("following")
     followstatus, created = FS.objects.get_or_create(follower=user_logged_in, following=user2unfollow)
-    selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")
-    return render(request, "network/smprofilefollowing.html", {"selected_users_old_posts": selected_users_old_posts, "username": username})
+    selected_users_old_posts = Tweet.objects.filter(user__username=username).order_by("-timestamp")[displacementAmount:displacementAmount+10]
+    morePosts = Tweet.objects.filter(user__username=username).order_by("-timestamp")[displacementAmount+10:displacementAmount+20].exists()
+    return render(request, "network/smprofilefollowing.html", {"selected_users_old_posts": selected_users_old_posts, "username": username, 'nextPageUrl': nextPageUrl , 'lastPageUrl': lastPageUrl, "more_posts":morePosts})
     
 def followingpage(request):
+    pageNumber = int(request.GET.get('page', 1))
+    nextPageUrl = '?page=' + str(pageNumber + 1)
+    lastPageUrl = '?page=' + str(pageNumber - 1) if pageNumber > 1 else ""
+    displacementAmount = (pageNumber - 1) * 10
     users_followed = FS.objects.filter(follower = request.user).values_list('following', flat = True)
-    old_posts = Tweet.objects.filter(user__in=users_followed).order_by("-likes" , "-timestamp")
-    return render(request, "network/followingpage.html", {'old_posts': old_posts})
+    old_posts = Tweet.objects.filter(user__in=users_followed).order_by("-likes" , "-timestamp")[displacementAmount:displacementAmount+10]
+    morePosts = Tweet.objects.filter(user__in=users_followed).order_by("-likes" , "-timestamp")[displacementAmount+10:displacementAmount+20].exists()
+    return render(request, "network/followingpage.html", {'old_posts': old_posts, 'nextPageUrl': nextPageUrl , 'lastPageUrl': lastPageUrl, "more_posts":morePosts})
