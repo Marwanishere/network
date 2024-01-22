@@ -62,5 +62,48 @@ function delete_old_post(e) {
     })
     .finally(()=> location.reload());
 }
-// when you are working on pagination please make the old posts come up in a blur to 
-// unblur stagnating fashion from the bottom upward on scroll i think that will be so cool
+
+document.querySelectorAll('#edit-button').forEach(button => {
+    button.addEventListener('click', edit_post);
+});
+document.querySelector('#save-button').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector('#title_new-content').style.display = 'none';
+    document.querySelector('#text-area').style.display = 'none';
+    let new_title = document.querySelector('#title_new-content').value;
+    let new_content = document.querySelector('#text-area').value;
+    let ContentDiv = document.querySelector('#post_content');
+    let text_node = document.createTextNode(new_content);
+    let id = e.target.dataset.id;
+    ContentDiv.replaceChild(text_node, document.querySelector('#text-area'));
+    e.target.textContent = 'Edit';
+    fetch(`/edit_post/${id}/`,{
+        method: 'PATCH',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body:JSON.stringify({
+            title_new: new_title,
+            content: new_content
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+        let old_content = document.querySelector('#old_posts[data-id="'+ id + '"] h6');
+        old_content.textContent = data.new_content;
+    });
+});
+function edit_post(e) {
+    e.preventDefault()
+    document.querySelector('#title_new-content').style.display = 'None';
+    document.querySelector('#text-area').style.display = 'None';
+    e.target.textContent = 'Save';
+    let id = e.target.dataset.id;
+    let original_content = document.querySelector('#old_posts[data-id="'+ id + '"] h6');
+    let text_area = document.createElement('textarea');
+    text_area.id = "new-content";
+    text_area.value = original_content.textContent;
+    original_content.parentNode.replaceChild(text_area, original_content);
+    console.log(`edit post with id ${id}`)
+    
+};
