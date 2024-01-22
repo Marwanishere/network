@@ -129,3 +129,13 @@ def followingpage(request):
     old_posts = Tweet.objects.filter(user__in=users_followed).order_by("-likes" , "-timestamp")[displacementAmount:displacementAmount+10]
     morePosts = Tweet.objects.filter(user__in=users_followed).order_by("-likes" , "-timestamp")[displacementAmount+10:displacementAmount+20].exists()
     return render(request, "network/followingpage.html", {'old_posts': old_posts, 'nextPageUrl': nextPageUrl , 'lastPageUrl': lastPageUrl, "more_posts":morePosts})
+
+def edit_post(request, id):
+    if request.method == "PATCH":
+        dataPool = json.loads(request.body)
+        post = Tweet.objects.get(id = id)
+        post.content=dataPool['content']
+        post.save()
+        return JsonResponse({'message': 'Post edited successfully.'})
+    
+

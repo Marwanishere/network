@@ -85,6 +85,8 @@ document.querySelector('#save-button').addEventListener('click', function(e) {
         old_content.textContent = data.new_content;
         document.querySelector('#post_content').textContent = new_content;
     });
+    document.querySelector('#post_content').style.display = 'block';
+    document.querySelector('#text-area').style.display = 'None';
 });
 function edit_post(e) {
     e.preventDefault()
