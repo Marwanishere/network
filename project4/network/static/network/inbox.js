@@ -66,9 +66,12 @@ function delete_old_post(e) {
 document.querySelectorAll('#edit-button').forEach(button => {
     button.addEventListener('click', edit_post);
 });
-document.querySelector('#save-button').addEventListener('click', function(e) {
+function save_post(e){
     e.preventDefault();
+    let id = e.target.dataset.id;
     let new_content = document.querySelector('#text-area').value;
+    let original_content = document.querySelector('#post_content1').textContent;
+    document.querySelector('#text-area').value = original_content;
     e.target.textContent = 'Edit';
     fetch(`/edit_post/${id}/`,{
         method: 'PATCH',
@@ -76,26 +79,29 @@ document.querySelector('#save-button').addEventListener('click', function(e) {
             'X-CSRFToken': getCookie('csrftoken'),
         },
         body:JSON.stringify({
-            content: new_content
+            content: new_content,
+            id: id
         })
     })
     .then(r => r.json())
     .then(data => {
         let old_content = document.querySelector('#old_posts[data-id="'+ id + '"] h6');
         old_content.textContent = data.new_content;
-        document.querySelector('#post_content').textContent = new_content;
+        document.querySelector('#post_content1').textContent = new_content;
     });
-    document.querySelector('#post_content').style.display = 'block';
+    document.querySelector('#post_content1').style.display = 'block';
     document.querySelector('#text-area').style.display = 'None';
-});
+    console.log(data.new_content);
+};
 function edit_post(e) {
     e.preventDefault()
-    document.querySelector('#post_content').style.display = 'None';
+    document.querySelector('#post_content1').style.display = 'None';
     document.querySelector('#text-area').style.display = 'block';
     e.target.textContent = 'Save';
     let id = e.target.dataset.id;
-    let original_content = document.querySelector('#post_content').textContent;
+    let original_content = document.querySelector('#post_content1').textContent;
     document.querySelector('#text-area').value = original_content;
     console.log(`edit post with id ${id}`)
+    e.target.addEventListener('click', save_post);
     
 };
