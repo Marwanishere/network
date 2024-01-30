@@ -63,18 +63,18 @@ function delete_old_post(e) {
     .finally(()=> location.reload());
 }
 
-document.querySelectorAll('#edit-button').forEach(button => {
+document.querySelectorAll('.edit-button').forEach(button => {
     button.addEventListener('click', edit_post);
 });
 function save_post(e){
     e.preventDefault();
     let id = e.target.dataset.id;
-    let new_content = document.querySelector('#text-area').value;
-    let original_content = document.querySelector('#post_content1').textContent;
-    document.querySelector('#text-area').value = original_content;
+    let new_content = document.querySelector('.text-area').value;
+    let original_content = document.querySelector('.post_content1').textContent;
+    document.querySelector('.text-area').value = original_content;
     e.target.textContent = 'Edit';
     fetch(`/edit_post/${id}/`,{
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
             'X-CSRFToken': getCookie('csrftoken'),
         },
@@ -85,23 +85,27 @@ function save_post(e){
     })
     .then(r => r.json())
     .then(data => {
-        let old_content = document.querySelector('#old_posts[data-id="'+ id + '"] h6');
+        let old_content = document.querySelector('.old_posts[data-id="'+ id + '"] h6');
         old_content.textContent = data.new_content;
-        document.querySelector('#post_content1').textContent = new_content;
+        document.querySelector('.post_content1').textContent = new_content;
     });
-    document.querySelector('#post_content1').style.display = 'block';
-    document.querySelector('#text-area').style.display = 'None';
+    document.querySelector('.post_content1').style.display = 'block';
+    document.querySelector('.text-area').style.display = 'None';
     console.log(data.new_content);
+    console.log(`edit post with id ${id}`);
 };
 function edit_post(e) {
     e.preventDefault()
-    document.querySelector('#post_content1').style.display = 'None';
-    document.querySelector('#text-area').style.display = 'block';
+    document.querySelector('.post_content1').style.display = 'None';
+    document.querySelector('.text-area').style.display = 'block';
     e.target.textContent = 'Save';
     let id = e.target.dataset.id;
-    let original_content = document.querySelector('#post_content1').textContent;
-    document.querySelector('#text-area').value = original_content;
+    let original_content = document.querySelector('.post_content1').textContent;
+    document.querySelector('.text-area').value = original_content;
     console.log(`edit post with id ${id}`)
     e.target.addEventListener('click', save_post);
     
 };
+
+// if im to do this again just rebuild it so that save and edit post are two seperate buttons and that when one gets showed 
+// the other one gets blocked.
