@@ -11,6 +11,7 @@ class Tweet(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default = 0)
+    liked = models.BooleanField(default = False)
 
     def serialize(self):
         return {
@@ -18,7 +19,8 @@ class Tweet(models.Model):
             "title": self.title,
             "content": self.content,
             "timestamp": self.timestamp.strftime('%B %d, %Y, %I:%M %p'),
-            "likes": self.likes
+            "likes": self.likes,
+            "liked": self.liked,
         }
     # cs50 chatbot helped with making the different variables in the self serialize function
 

@@ -5,10 +5,12 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import JsonResponse
 import json
+from django.core import serializers
 
 from .models import User
 from .models import Tweet
 from .models import FS
+
 
 
 def index(request):
@@ -131,11 +133,23 @@ def followingpage(request):
     return render(request, "network/followingpage.html", {'old_posts': old_posts, 'nextPageUrl': nextPageUrl , 'lastPageUrl': lastPageUrl, "more_posts":morePosts})
 
 def edit_post(request, id):
+    # skeleton of below function made with the assistance of the course's ai chatbot
     if request.method == "POST":
-        dataPool = json.loads(request.body)
-        post = Tweet.objects.get(id = id)
-        post.content=dataPool['content']
-        post.save()
-        return JsonResponse({'message': 'Post edited successfully.'})
+        #below line format made using cs50.ai assistance
+        contentpool = json.loads(request.body)
+        p0st = Tweet.objects.get(id = id)
+        #below line format made using cs50.ai assistance
+        p0st.content=contentpool['content']
+        p0st.save()
+
+def liked_post(request, id):
+    if request.method == "POST":
+        alllikes = json.loads(request.body)
+        liked1 = Tweet.objects.get(id = id)
+        liked1.liked = alllikes['liked']
+        liked1.save()
+        return JsonResponse({'success': liked1})
+
+
     
 

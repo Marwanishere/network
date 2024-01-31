@@ -62,53 +62,6 @@ function delete_old_post(e) {
     })
     .finally(()=> location.reload());
 }
-
-// document.querySelectorAll('#edit-button').forEach(button => {
-//     button.addEventListener('click', edit_post);
-// });
-// function save_post(e){
-//     e.preventDefault();
-//     let id = e.target.dataset.id;
-//     let new_content = document.querySelector('#text-area').value;
-//     let original_content = document.querySelector('#post_content1').textContent;
-//     document.querySelector('#text-area').value = new_content;
-//     e.target.textContent = 'Edit';
-//     fetch(`/edit_post/${id}/`,{
-//         method: 'PUT',
-//         headers: {
-//             'X-CSRFToken': getCookie('csrftoken'),
-//         },
-//         body:JSON.stringify({
-//             content: new_content,
-//             id: id
-//         })
-//     })
-//     .then(r => r.json())
-//     .then(data => {
-//         let old_content = document.querySelector('#old_posts[data-id="'+ id + '"] h6');
-//         old_content.textContent = data.new_content;
-//         document.querySelector('#post_content1').textContent = new_content;
-//     });
-//     document.querySelector('#post_content1').style.display = 'block';
-//     document.querySelector('#text-area').style.display = 'None';
-//     console.log(data.new_content);
-//     console.log(`edit post with id ${id}`);
-// };
-// function edit_post(e) {
-//     e.preventDefault()
-//     document.querySelector('#post_content1').style.display = 'None';
-//     document.querySelector('#text-area').style.display = 'block';
-//     e.target.textContent = 'Save';
-//     let id = e.target.dataset.id;
-//     let original_content = document.querySelector('#post_content1').textContent;
-//     document.querySelector('#text-area').value = original_content;
-//     console.log(`edit post with id ${id}`)
-//     e.target.addEventListener('click', save_post);
-    
-// };
-
-// if im to do this again just rebuild it so that save and edit post are two seperate buttons and that when one gets showed 
-// the other one gets blocked.
 document.querySelectorAll('#edit-button').forEach(button => {
     button.addEventListener('click', edit_post);
 });
@@ -148,7 +101,52 @@ function save_post(e){
         })
     })
     .then(r => r.json())
-    .then(newer => { document.querySelector(`#original-text[data-id = '${id}']`).textContent = newer.content;});
-    document.querySelector(`#original-text[data-id = '${id}']`).style.display = 'block';
+    .then(newer => { document.querySelector(`#original-text[data-id = '${id}']`).textContent = newer.content;
+    document.querySelector(`#original-text[data-id = '${id}']`).style.display = 'block';})
+    .finally(()=> location.reload());
+}
+document.querySelectorAll('#unlike-button').forEach(button => {
+    button.addEventListener('click', unlike_post);
+});
+document.querySelectorAll('#like-button').forEach(button => {
+    button.addEventListener('click', like_post);
+});
 
+function unlike_post(e){
+    e.preventDefault()
+    e.target.style.display = "None"
+    var id = e.target.dataset.id;
+    var lb = document.querySelector(`#like-button[data-id= '${id}']`);
+    lb.style.display = 'inline';
+    liked = true;
+    fetch(`/liked_post/${id}`,{
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body:JSON.stringify({
+            liked: liked,
+            id: id
+        })
+    })
+    .then(r => r.json())
+}
+function like_post(e){
+    e.preventDefault()
+    e.target.style.display = "None"
+    var id = e.target.dataset.id;
+    var ulb = document.querySelector(`#unlike-button[data-id= '${id}']`);
+    ulb.style.display = 'inline';
+    liked = false;
+    fetch(`/liked_post/${id}`,{
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body:JSON.stringify({
+            liked: liked,
+            id: id
+        })
+    })
+    .then(r => r.json())
 }
