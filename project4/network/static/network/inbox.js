@@ -123,7 +123,9 @@ function edit_post(e){
     sb.style.display = 'block';    
     console.log(`the id of the selected post is '${id}'`)
     // now to do the same thing for the text box and pre populate it
-    var ta = document.querySelector(`#text-area[data-id = '${id}']`);
-    ta.value = '#original-text';
+    var ta = document.querySelector(`#text-area[data-id = '${id}']`)
     ta.style.display = 'block';
+    // works up to this point
+    let ot = document.querySelector(`#original-text[data-id = '${id}']`).textContent;
+    document.querySelector(`#text-area[data-id = '${id}']`).value = ot;
 }
