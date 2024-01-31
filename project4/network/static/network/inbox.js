@@ -123,15 +123,7 @@ function edit_post(e){
     sb.style.display = 'block';    
     console.log(`the id of the selected post is '${id}'`)
     // now to do the same thing for the text box and pre populate it
-    // var ot = document.querySelector(`#original-text[data-id= '${id}']`).textContent;
-    // document.querySelector(`#text-area[data-id= '${id}']`).textContent = ot;
-    // document.querySelector(`#text-area[data-id= '${id}']`).style.display = 'block';
-    var otElement = document.querySelector(`.original-text[data-id= '${id}']`);
-    if (otElement) {
-        var ot = otElement.textContent;
-        document.querySelector(`#text-area[data-id= '${id}']`).textContent = ot;
-        document.querySelector(`#text-area[data-id= '${id}']`).style.display = 'block';
-    } else {
-        console.log(`Element with id ${id} not found`);
-    }
+    var ta = document.querySelector(`#text-area[data-id = '${id}']`);
+    ta.value = '#original-text';
+    ta.style.display = 'block';
 }
