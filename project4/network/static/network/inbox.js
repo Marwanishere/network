@@ -128,4 +128,5 @@ function edit_post(e){
     // works up to this point
     let ot = document.querySelector(`#original-text[data-id = '${id}']`).textContent;
     document.querySelector(`#text-area[data-id = '${id}']`).value = ot;
+    document.querySelector(`#original-text[data-id = '${id}']`).style.display = 'none';
 }
