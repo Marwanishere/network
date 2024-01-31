@@ -122,11 +122,33 @@ function edit_post(e){
     var sb = document.querySelector(`#save-button[data-id= '${id}']`);
     sb.style.display = 'block';    
     console.log(`the id of the selected post is '${id}'`)
-    // now to do the same thing for the text box and pre populate it
     var ta = document.querySelector(`#text-area[data-id = '${id}']`)
     ta.style.display = 'block';
-    // works up to this point
     let ot = document.querySelector(`#original-text[data-id = '${id}']`).textContent;
     document.querySelector(`#text-area[data-id = '${id}']`).value = ot;
     document.querySelector(`#original-text[data-id = '${id}']`).style.display = 'none';
+}
+function save_post(e){
+    e.preventDefault()
+    e.target.style.display = 'None';
+    var id = e.target.dataset.id;
+    var eb = document.querySelector(`#edit-button[data-id= '${id}']`);
+    eb.style.display = 'block'; 
+    console.log(`the id of the selected post is '${id}'`)
+    var ta = document.querySelector(`#text-area[data-id = '${id}']`)
+    ta.style.display = 'None';
+    fetch(`/edit_post/${id}`,{
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body:JSON.stringify({
+            content: ta.value,
+            id: id
+        })
+    })
+    .then(r => r.json())
+    .then(newer => { document.querySelector(`#original-text[data-id = '${id}']`).textContent = newer.content;});
+    document.querySelector(`#original-text[data-id = '${id}']`).style.display = 'block';
+
 }
