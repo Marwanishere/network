@@ -9,12 +9,6 @@
                 <textarea id="post-content" name="content" placeholder="Write your post here..." style="background-color: #333; color: #fff;"></textarea>
                 <input style="margin-bottom: 5px; background-color: #333; color: #00bbff;" id="submit-post" type="submit" value="Post">
             </form>
-            <!-- below form made with the assistance of cs50 chatbot -->
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Submit Video</button>
-            </form>
             {% for post in old_posts %}
                 <div id = "old_posts" data-id = "{{ post.id }}">
                     <h5>{{ post.title }}</h5>

@@ -10,20 +10,6 @@ from django.core import serializers
 from .models import User
 from .models import Tweet
 from .models import FS
-from .models import Vid
-
-from .forms import UploadVideoForm
-
-# the following function was made using the assistance of the cs50.ai chatbot
-# UploadVideoForm takes the data from the form which has a class meta with model = Vid
-def upload_video(request):
-    if request.method == 'POST':
-        form = UploadVideoForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-    else:
-        form = UploadVideoForm()
-    return render(request, 'index.html', {'form': form})
 
 def index(request):
     pageNumber = int(request.GET.get('page', 1))
